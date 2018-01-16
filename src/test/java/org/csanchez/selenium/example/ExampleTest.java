@@ -17,10 +17,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ExampleTest {
 
-	private final static String SELENIUM_HUB = System.getProperty("HUB_PORT_4444_TCP_ADDR","172.17.0.2");
-	private final static String SELENIUM_URL = "http://"+SELENIUM_HUB+":4444/wd/hub";
+    private final static String SELENIUM_HUB = System.getProperty("HUB_PORT_4444_TCP_ADDR","172.17.0.2");
+    private final static String SELENIUM_PORT = System.getProperty("HUB_PORT", "4444");
+    private final static String SELENIUM_URL = "http://"+SELENIUM_HUB+":"+SELENIUM_PORT+"/wd/hub";
 //    private final static String SELENIUM_URL = System.getProperty("selenium.url", "http://"+SELENIUM_HUB+":4444/wd/hub");
-	private final static String SELENIUM_BROWSER = System.getProperty("selenium.browser", "chrome");
+    private final static String SELENIUM_BROWSER = System.getProperty("selenium.browser", "chrome");
     private final static int SLEEP = Integer.parseInt(System.getProperty("sleep", "10000"));
 
     protected WebDriver driver;
@@ -32,7 +33,7 @@ public class ExampleTest {
         WebDriverException ex = null;
         for (int i = 0; i < 10; i++) {
             try {
-            	System.out.println("Environmental address:" + SELENIUM_HUB);
+                System.out.println("Environmental address:" + SELENIUM_HUB);
                 this.driver = new RemoteWebDriver(new URL(SELENIUM_URL), capabilities);
                 return;
             } catch (WebDriverException e) {
