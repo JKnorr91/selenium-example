@@ -1,11 +1,17 @@
 pipeline {
     agent any
+
+    environment {
+        sel_hub = null
+        sel_chrome = null
+    }
+
     stages {
         stage("Prepare Selenium") {
             steps {
                 script {
-                    def sel_hub = docker.image('selenium/hub:3.4.0').run('-p 4444:4444 --name selenium-hub')
-                    def sel_chrome = docker.image('selenium/node-chrome-debug:3.4.0').run('-p 5901:5900 --link selenium-hub:hub')
+                    sel_hub = docker.image('selenium/hub:3.4.0').run('-p 4444:4444 --name selenium-hub')
+                    sel_chrome = docker.image('selenium/node-chrome-debug:3.4.0').run('-p 5901:5900 --link selenium-hub:hub')
                 }
             }
         }
@@ -32,6 +38,7 @@ pipeline {
             }
         }
     }
+    
     post {
         always {
             script {
