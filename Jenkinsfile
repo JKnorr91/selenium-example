@@ -10,7 +10,7 @@ pipeline {
             steps {
                 echo "Umgebungsvariable TESTVAR: ${TESTVAR}"
                 script {
-                    sel_hub = docker.image('selenium/standalone-chrome:3.8.1-erbium').run('-p 4444:4444 -p -v /dev/shm:/dev/shm --name selenium-hub')
+                    sel_hub = docker.image('selenium/standalone-chrome:3.8.1-erbium').run('-p 4444:4444 -v /dev/shm:/dev/shm --name selenium-hub')
                 }
             }
         }
