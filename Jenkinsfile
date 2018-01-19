@@ -2,6 +2,10 @@ pipeline {
     agent any
     stages {
         stage("Prepare Selenium") {
+            script {
+                def sel_hub = docker.image('selenium/hub:3.4.0').run('-p 4444:4444 --name selenium-hub')
+                def sel_chrome = docker.image('selenium/node-chrome-debug:3.4.0').run('-p 5901:5900 --link selenium-hub:hub')
+            }
             agent {
                 docker {
                     reuseNode true
@@ -30,6 +34,14 @@ pipeline {
             }
             steps {
                 sh 'mvn -B test -Dselenium.browser=chrome -Dsurefire.rerunFailingTestsCount=5 -DHUB_PORT_4444_TCP_ADDR=wl-integration-test01.test-server.ag -DHUB_PORT=4444 -Dsleep=0'
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                sel_hub.stop()
+                sel_chrome.stop()
             }
         }
     }
