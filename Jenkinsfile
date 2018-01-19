@@ -8,6 +8,7 @@ pipeline {
     stages {
         stage("Prepare Selenium") {
             steps {
+                sh 'rm -rf videos'
                 sh 'mkdir videos'
                 script {
                     sel_hub = docker.image('elgalu/selenium').run('-p 4444:24444 -p 5900:25900 -v /dev/shm:/dev/shm -v ' + pwd() + '/videos:/videos --name selenium-hub -e TZ=Europe/Berlin -e VIDEO=true')
