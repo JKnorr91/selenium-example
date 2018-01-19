@@ -7,9 +7,6 @@ pipeline {
         }
     }
     stages {
-        stage("Prepare Selenium") {
-
-        }
         stage("Build") {
             agent {
                 docker {
