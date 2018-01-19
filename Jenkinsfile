@@ -8,10 +8,9 @@ pipeline {
     stages {
         stage("Prepare Selenium") {
             steps {
-                sh 'rm -rf videos'
-                sh 'mkdir videos'
+                sh "Umgebungsvariable TESTVAR: ${TESTVAR}"
                 script {
-                    sel_hub = docker.image('elgalu/selenium').run('-p 4444:24444 -p 5900:25900 -v /dev/shm:/dev/shm -v ' + pwd() + '/videos:/videos --name selenium-hub -e TZ=Europe/Berlin -e VIDEO=true')
+                    sel_hub = docker.image('elgalu/selenium').run('-p 4444:24444 -p 5900:25900 -v /dev/shm:/dev/shm --name selenium-hub -e TZ=Europe/Berlin')
                 }
             }
         }
@@ -41,12 +40,7 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: pwd() + '/videos/**/*', fingerprint: true
             script {
-                sel_hub.inside {
-                    echo "LIST VIDEOS DIR"
-                    sh "ls /videos"
-                }
                 sel_hub.stop()
             }
         }
