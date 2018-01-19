@@ -39,6 +39,7 @@ pipeline {
 
     post {
         always {
+            archiveArtifacts artifacts: '$(pwd)/videos/**/*', fingerprint: true
             script {
                 sel_hub.stop()
             }
