@@ -2,15 +2,10 @@ pipeline {
     agent any
     stages {
         stage("Prepare Selenium") {
-            script {
-                def sel_hub = docker.image('selenium/hub:3.4.0').run('-p 4444:4444 --name selenium-hub')
-                def sel_chrome = docker.image('selenium/node-chrome-debug:3.4.0').run('-p 5901:5900 --link selenium-hub:hub')
-            }
-            agent {
-                docker {
-                    reuseNode true
-                    image 'selenium/standalone-chrome'
-                    args  '-p 4444:4444 -v /dev/shm:/dev/shm'
+            steps {
+                script {
+                    def sel_hub = docker.image('selenium/hub:3.4.0').run('-p 4444:4444 --name selenium-hub')
+                    def sel_chrome = docker.image('selenium/node-chrome-debug:3.4.0').run('-p 5901:5900 --link selenium-hub:hub')
                 }
             }
         }
