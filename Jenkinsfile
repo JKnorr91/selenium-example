@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage("Prepare Selenium") {
             steps {
-                sh "Umgebungsvariable TESTVAR: ${TESTVAR}"
+                echo "Umgebungsvariable TESTVAR: ${TESTVAR}"
                 script {
                     sel_hub = docker.image('elgalu/selenium').run('-p 4444:24444 -p 5900:25900 -v /dev/shm:/dev/shm --name selenium-hub -e TZ=Europe/Berlin')
                 }
