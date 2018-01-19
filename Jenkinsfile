@@ -1,6 +1,15 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            reuseNode true
+            image 'selenium/standalone-chrome'
+            args  '-p 4444:4444 -v /dev/shm:/dev/shm'
+        }
+    }
     stages {
+        stage("Prepare Selenium") {
+
+        }
         stage("Build") {
             agent {
                 docker {
